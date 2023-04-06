@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const db = require('./src/models');
+const db = require('./models');
 const cors = require('cors');
 
 const PORT = process.env.PORT;
@@ -27,7 +27,7 @@ db.mongoose.connect(db.url, {useNewUrlParser: true, useUnifiedTopology: true})
         res.json('Hello from Mongoose Application')
     });
 
-    require('./src/routes/posts.routes')(app);
+    require('./routes/posts.routes')(app);
 
     app.listen(PORT, () => {
         console.log(`Listening to port: ${PORT}`)

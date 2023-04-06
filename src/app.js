@@ -15,7 +15,7 @@ app.use(cors(corsOrigin));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-db.mongoose.connect(db.url, {useNewUrlParser: true, useUnifiedTopology: true})
+db.mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
         console.log('connted to database');
     }).catch(err => {

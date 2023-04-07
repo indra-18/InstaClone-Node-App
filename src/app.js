@@ -7,10 +7,10 @@ const cors = require('cors');
 const PORT = process.env.PORT;
 
 const corsOrigin = {
-    origin: "http:localhost:3000"
+    origin: "http:localhost:5000"
 }
 
-app.use(cors(corsOrigin));
+app.use(cors(corsOrigin.origin));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

@@ -1,12 +1,13 @@
 module.exports = app => {
     const multer = require('multer');
+    require('dotenv').config();
     const {GridFsStorage} = require("multer-gridfs-storage");
     const posts = require('../controllers/post.controller');
 
     const router = require('express').Router();
 
     const fileStorage = new GridFsStorage({
-        url : process.env.DB_URL+'/test',
+        url : process.env.DB_URL+ 'test',
         file : (req, file) => {
             return {
                 bucketName : 'posts',
@@ -22,5 +23,5 @@ module.exports = app => {
     router.post('/new',fileUpload.single("image"), posts.create);
     router.get('/view', posts.all);
 
-    app.use('/posts', router)
+    app.use('/', router)
 }

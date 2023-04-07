@@ -1,3 +1,4 @@
+// const Posts = require('../models/post.model')
 const db = require("../models");
 const Posts = db.posts
 
@@ -7,14 +8,9 @@ exports.create = async(req, res) => {
         res.status(400).send({message: 'request body not found'});
     }
     try {
-        let post = new Posts({
-            image: `image/${req.body.image}`,
-            author: req.body.author,
-            location: req.body.location,
-            description: req.body.description,
-            likes: req.body.likes,
-            date: req.body.date,
-            id: req.body.id
+        let post = await new Posts({
+            ...req.body,
+            image: `image/${req.file.filename}`
         });
         post = await post.save()
         res.status(200).json({status: "Success", message: "Post Created", result: post});

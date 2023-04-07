@@ -1,21 +1,19 @@
-require('dotenv').config();
+// require('dotenv').config();
+const mongoose = require('mongoose')
 const express = require('express');
 const app = express();
-const db = require('./models');
+const db = require('./config/db');
 const cors = require('cors');
 
 const PORT = process.env.PORT;
 
-const corsOrigin = {
-    origin: "http:localhost:5000"
-}
 
-app.use(cors(corsOrigin.origin));
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-db.mongoose.connect(db.url, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(db.url, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
         console.log('connted to database');
     }).catch(err => {
@@ -24,7 +22,7 @@ db.mongoose.connect(db.url, {useNewUrlParser: true, useUnifiedTopology: true})
     })
 
     app.get('/', (req, res) => {
-        res.json('Hello from Mongoose Application')
+        res.json('Hello from InstaClone Node API')
     });
 
     require('./routes/posts.routes')(app);

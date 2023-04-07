@@ -1,4 +1,7 @@
-// const Posts = require('../models/post.model')
+require("dotenv").config();
+const MongoClient = require("mongodb").MongoClient;
+const GridFSBucket = require("mongodb").GridFSBucket;
+const client = new MongoClient(process.env.DB_URL);
 const db = require("../models");
 const Posts = db.posts
 
@@ -34,3 +37,25 @@ exports.all = async(req, res) => {
     }
 
 }
+
+exports.load = async function(req, res){
+    try{
+        await client.connect();
+        const db = client.db(process.env.DB_NAME);
+        const collection = new GridFSBucket(db, {
+            bucketName : 'posts'
+        });
+        const loadImage = collection.openDownloadStreamByName(req.params.name);
+        loadImage.on("data", data => res.status(200).write(data));
+        loadImage.on("error", (err) => {
+            res.status(400).send({status:"failed to load", message: err.message});
+        });
+        loadImage.on("end", () => {
+            res.end();
+        });
+    }
+    catch(err)
+    {
+        res.status(500).send({status:"Server Error", message : err.message});
+    }
+};

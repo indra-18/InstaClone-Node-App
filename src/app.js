@@ -25,6 +25,7 @@ mongoose.connect(db.url, {useNewUrlParser: true, useUnifiedTopology: true})
         res.json('Hello from InstaClone Node API')
     });
 
+
     require('./routes/posts.routes')(app);
 
     app.listen(PORT, () => {
